@@ -33,13 +33,12 @@ export const onPreBuild = async function ({
   ])
   
   console.log('📂 Extracting Android command-line tools')
-  await run('mkdir', ['-p', `${androidSdkPath}/cmdline-tools-temp`])
-  await run('unzip', ['cmdline-tools.zip', '-d', `${androidSdkPath}/cmdline-tools-temp`])
+  await run('mkdir', ['-p', `${androidSdkPath}/cmdline-tools`])
+  await run('unzip', ['cmdline-tools.zip', '-d', `${androidSdkPath}/cmdline-tools`])
   await run('mv', [
-    `${androidSdkPath}/cmdline-tools-temp/cmdline-tools`,
-    `${androidSdkPath}/cmdline-tools`,
+    `${androidSdkPath}/cmdline-tools/cmdline-tools`,
+    `${androidSdkPath}/cmdline-tools/latest`,
   ])
-  await run('rm', ['-rf', `${androidSdkPath}/cmdline-tools-temp`])
   console.log('✅ Android SDK command-line tools installed')
 
   process.env['ANDROID_HOME'] = androidSdkPath
@@ -47,12 +46,11 @@ export const onPreBuild = async function ({
     process.env['PATH'] + ':' + androidSdkPath + '/cmdline-tools/latest/bin:' + androidSdkPath + '/platform-tools'
 
   console.log('🔧 Setting up Android SDK packages')
-  await run('yes |', [
-    `${androidSdkPath}/cmdline-tools/latest/bin/sdkmanager`,
-    `"platform-tools"`,
-    `"platforms;android-30"`,
-    `"build-tools;30.0.3"`,
-  ])
+  await run(`${androidSdkPath}/cmdline-tools/latest/bin/sdkmanager`, [
+    'platform-tools',
+    'platforms;android-30',
+    'build-tools;30.0.3',
+  ], { input: 'y\n' })  // Provide "yes" input directly
 
   // Install Flutter
   console.log('⚡️ Downloading Flutter Stable SDK')
