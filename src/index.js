@@ -55,22 +55,22 @@ export const onPreBuild = async function ({
     'build-tools;30.0.3',
   ], { input: 'y\n', env })
 
-  // Install Flutter
-  console.log('⚡️ Downloading Flutter Stable SDK')
-  await run('git', [
-    'clone',
-    'https://github.com/flutter/flutter.git',
-    '-b',
-    targetChannel,
-    flutterPath,
-  ])
-  console.log('✅ Flutter SDK downloaded')
+  // // Install Flutter
+  // console.log('⚡️ Downloading Flutter Stable SDK')
+  // await run('git', [
+  //   'clone',
+  //   'https://github.com/flutter/flutter.git',
+  //   '-b',
+  //   targetChannel,
+  //   flutterPath,
+  // ])
+  // console.log('✅ Flutter SDK downloaded')
 
-  console.log('🪄 Adding Flutter to PATH')
-  process.env['PATH'] = flutterBinPath + ':' + process.env['PATH']
+  // console.log('🪄 Adding Flutter to PATH')
+  // process.env['PATH'] = flutterBinPath + ':' + process.env['PATH']
 
-  console.log('🔨 Running flutter doctor')
-  await run('flutter', ['doctor'], { env })
+  // console.log('🔨 Running flutter doctor')
+  // await run('flutter', ['doctor'], { env })
 
-  status.show({ summary: 'Flutter, Java, and Android SDK installed' })
+  status.show({ summary: 'Java and Android SDK installed' })
 }
