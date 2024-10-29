@@ -11,17 +11,17 @@ export const onPreBuild = async function ({
   const targetChannel = inputs.channel || 'stable'
 
   // Install Java
-  console.log('☕️ Installing Java JDK')
+  console.log('☕️ Installing Java')
   await run('wget', [
     'https://download.oracle.com/java/17/archive/jdk-17.0.12_linux-x64_bin.tar.gz',
     '-O',
-    'java.tar.gz',
+    'jdk.tar.gz',
   ])
   await run('mkdir', ['-p', javaPath])
-  await run('tar', ['-xzf', 'java.tar.gz', '-C', javaPath, '--strip-components=1'])
+  await run('tar', ['-xzf', 'jdk.tar.gz', '-C', javaPath, '--strip-components=1'])
   process.env['JAVA_HOME'] = javaPath
   process.env['PATH'] = process.env['PATH'] + ':' + javaPath + '/bin'
-  console.log('✅ Java JDK installed')
+  console.log('✅ Java installed')
 
   // Install Android SDK
   console.log('📱 Downloading Android SDK')
@@ -31,15 +31,20 @@ export const onPreBuild = async function ({
     '-O',
     'cmdline-tools.zip',
   ])
-  await run('unzip', ['cmdline-tools.zip', '-d', androidSdkPath])
+  
+  console.log('📂 Extracting Android command-line tools')
+  await run('mkdir', ['-p', `${androidSdkPath}/cmdline-tools-temp`])
+  await run('unzip', ['cmdline-tools.zip', '-d', `${androidSdkPath}/cmdline-tools-temp`])
   await run('mv', [
+    `${androidSdkPath}/cmdline-tools-temp/cmdline-tools`,
     `${androidSdkPath}/cmdline-tools`,
-    `${androidSdkPath}/cmdline-tools/latest`,
   ])
+  await run('rm', ['-rf', `${androidSdkPath}/cmdline-tools-temp`])
+  console.log('✅ Android SDK command-line tools installed')
+
   process.env['ANDROID_HOME'] = androidSdkPath
   process.env['PATH'] =
     process.env['PATH'] + ':' + androidSdkPath + '/cmdline-tools/latest/bin:' + androidSdkPath + '/platform-tools'
-  console.log('✅ Android SDK installed')
 
   console.log('🔧 Setting up Android SDK packages')
   await run('yes |', [
