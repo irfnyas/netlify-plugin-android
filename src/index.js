@@ -41,9 +41,10 @@ export const onPreBuild = async function ({
   ])
   console.log('✅ Android SDK command-line tools installed')
 
+  // Setting ANDROID_HOME and PATH again to ensure visibility for all commands
   process.env['ANDROID_HOME'] = androidSdkPath
-  process.env['PATH'] =
-    process.env['PATH'] + ':' + androidSdkPath + '/cmdline-tools/latest/bin:' + androidSdkPath + '/platform-tools'
+  process.env['PATH'] = 
+    `${androidSdkPath}/cmdline-tools/latest/bin:${androidSdkPath}/platform-tools:` + process.env['PATH']
 
   console.log('🔧 Setting up Android SDK packages')
   await run(`${androidSdkPath}/cmdline-tools/latest/bin/sdkmanager`, [
@@ -64,7 +65,7 @@ export const onPreBuild = async function ({
   console.log('✅ Flutter SDK downloaded')
 
   console.log('🪄 Adding Flutter to PATH')
-  process.env['PATH'] = process.env['PATH'] + ':' + flutterBinPath
+  process.env['PATH'] = flutterBinPath + ':' + process.env['PATH']
 
   console.log('🔨 Running flutter doctor')
   await run('flutter', ['doctor'])
