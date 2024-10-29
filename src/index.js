@@ -13,7 +13,7 @@ export const onPreBuild = async function ({
   // Install Java
   console.log('☕️ Installing Java JDK')
   await run('wget', [
-    'https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz',
+    'https://download.oracle.com/java/17/archive/jdk-17.0.12_linux-x64_bin.tar.gz',
     '-O',
     'java.tar.gz',
   ])
@@ -27,7 +27,7 @@ export const onPreBuild = async function ({
   console.log('📱 Downloading Android SDK')
   await run('mkdir', ['-p', androidSdkPath])
   await run('wget', [
-    'https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip',
+    'https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip',
     '-O',
     'cmdline-tools.zip',
   ])
