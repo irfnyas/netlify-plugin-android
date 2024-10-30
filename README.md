@@ -24,13 +24,16 @@ plugin/netlify-plugin-android
   |__ package.json
 ```
 
-3. (Optional) For Android support, add the following to `app/build.gradle`:
+3. Add the following to `app/build.gradle` for building APK (optional):
 ```js
-project.afterEvaluate {
-    copy {
-        from "$buildDir/outputs/flutter-apk"
-        into "${rootDir.parent}/build/web"
-        include "app-release.apk"
+android.applicationVariants.all { variant ->
+    variant.assemble.doLast {
+        def outputFile = variant.outputs.first().outputFile
+        copy {
+            from outputFile.parent
+            into file("${rootDir.parent}/build/web")
+            include outputFile.name
+        }
     }
 }
 ```

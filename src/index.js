@@ -51,8 +51,8 @@ export const onPreBuild = async function ({
   }
   await run(`${androidSdkPath}/cmdline-tools/latest/bin/sdkmanager`, [
     'platform-tools',
-    'platforms;android-30',
-    'build-tools;30.0.3',
+    'platforms;android-34',
+    'build-tools;34.0.0',
   ], { input: 'y\n', env })
   console.log('✅ Android SDK installed')
 
@@ -83,7 +83,7 @@ const getAndroidSdkDownloadUrl = () => new Promise((resolve, reject) =>
     let data = '';
     res.on('data', (chunk) => (data += chunk));
     res.on('end', () => {
-      const match = data.match(/https:\/\/dl\.google\.com\/android\/repository\/commandlinetools\-mac\-[0-9]*_latest\.zip/);
+      const match = data.match(/https:\/\/dl\.google\.com\/android\/repository\/commandlinetools\-linux\-[0-9]*_latest\.zip/);
       if (match) {
         resolve(match[0]);
       } else {
