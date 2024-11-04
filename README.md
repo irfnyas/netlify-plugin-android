@@ -17,11 +17,13 @@ Please install this plugin from the Netlify app.
 
 2. Add the following package files to `plugins/netlify-plugin-android`:
 ```
-plugin/netlify-plugin-android
-  |__ src
-  |   |__ index.js
-  |__ manifest.yml
-  |__ package.json
+plugins
+  |__ netlify-plugin-android
+      |__ src
+      |   |__ index.js
+      |
+      |__ manifest.yml
+      |__ package.json
 ```
 
 3. Add the following to `app/build.gradle` for building APK (optional):
